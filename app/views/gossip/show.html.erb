@@ -6,6 +6,14 @@
   <div class="card-body">
     <h5 class="card-title"><%= link_to "#{@gossip.user.first_name}", "/user/#{@gossip.user.id}" %></h5>
     <p class="card-text"><%= @gossip.content %></p>
-
+    <p class="card-text">Originaire de <%= @gossip.user.city.name %></p>
+    <%= link_to "#{@gossip.city.name}", "/city/#{@gossip.city.id}" %>
+    <%= link_to "Editer le gossip", "/gossip/#{@gossip.id}/edit" %>
+    
+    
 	</div>
 </div>
+<% @comments.each do |comment| %>
+      <p class="card-text"><%= comment.content %></p><br />
+      <%= link_to "Editer le commentaire", edit_comment_path(comment.id) %>
+<% end %>

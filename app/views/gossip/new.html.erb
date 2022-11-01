@@ -1,4 +1,5 @@
 <form action= "/gossip" method="POST">
+      <input type="hidden" name="user_id" value=<%= @user_id %>>
       Saisi un titre de gossip (Entre 3 et 14 charactères) :  <input type='text' name='title'/><br/>
       Saisi son contenu : <input type='text' name='content'/><br/>
       <input type='submit'/>

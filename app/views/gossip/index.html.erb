@@ -11,6 +11,8 @@
 				
 			
 			<ul> <%= @gossip[index].created_at %> </ul>
+<a href="<%= gossip_path(gossip.id)%>" class="btn btn-danger" data-confirm="Êtes-vous sur ?" data-method="DELETE">Supprimer</a>
+<%= link_to "Supprimer", gossip_path(gossip.id), method: :delete, class: "btn btn-danger" %>
 
 										</div>
 									</div>

@@ -1,5 +1,7 @@
 class Gossip < ApplicationRecord
     belongs_to :user
+    has_one :city, through: :user
+    has_many :comments
 
     validates :title,
         presence: true,

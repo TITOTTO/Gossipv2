@@ -1,5 +1,9 @@
 <div class="container-fluid my-5">
-	<h3>Voici la page de <%= @user.first_name %> <%= @user.last_name %></h3>
+	<h3>Voici la page de <%= @user.first_name %> <%= @user.last_name %></h3><br>
+  Voici sa description <%= @user.description%><br>
+  Voici son adresse mail <%= @user.mail%><br>
+  Son age <%= @user.age%> ans<br>
+  <%= link_to "#{@user.city.name}", "/city/#{@user.city.id}" %>
 </div>
 
 
@@ -17,4 +21,4 @@
 									</div>
 
  <% end %>
-<%= link_to "Créer un gossip", new_gossip_path(@user) %>
+<%= link_to "Créer un gossip", "/user/#{@user.id}/gossip/new" %>

@@ -1,0 +1,14 @@
+<div class="container-fluid my-5">
+	<h3>Je vous présente les villes du monde !</h3>
+</div>
+<% @city.each_with_index do |city, index| %>
+<div class="card align-self-center my-2" style="width: 100rem;">
+  <div class="card-body">
+    <h5 class="card-title"><%= link_to "#{city.name}", "/city/#{city.id}" %>   </h5>
+    <p class="card-text"><%= city.zip_code %></p>
+
+
+										</div>
+									</div>
+
+ <% end %>

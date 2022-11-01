@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
+  resources :comments
   resources :gossip
   resources :user do
     resources :gossip
   end
+  resources :city
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -1,0 +1,5 @@
+<%= form_for @gossip do |f| %>
+  Titre: <%= f.text_field :title, class: 'form-control' %><br />
+  Contenu : <%= f.text_area :content, class: 'form-control' %><br />
+  <button type="submit">Modifier le Gossip</button>
+<% end %>
