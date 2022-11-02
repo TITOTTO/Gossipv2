@@ -1,21 +1,5 @@
-<form action= "/gossip" method="POST">
-      <input type="hidden" name="user_id" value=<%= @user_id %>>
-      Saisi un titre de gossip (Entre 3 et 14 charactères) :  <input type='text' name='title'/><br/>
-      Saisi son contenu : <input type='text' name='content'/><br/>
-      <input type='submit'/>
-</form>
-
-<% if @gossip.errors.any? %>
-      <div class="alert alert-danger" role="alert">
-        <p>Nous n'avons pas réussi à créer le potin pour la (ou les) raison(s) suivante(s) :</p>
-        <ul>
-          <% @gossip.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-      <% else %>
-	<div class="alert alert-success" role="alert">
-  		<p> Nous avons réussi à créer le potion </p>
-	</div>
-<% end %>
+<%= form_tag('/gossip') do -%>
+    Saisi un titre de gossip (Entre 3 et 14 charactères) :  <input type='text' name='title'/><br/>
+    Saisi son contenu : <input type='text' name='content'/><br/>
+    <div><%= submit_tag 'Save' %></div>
+<% end -%>

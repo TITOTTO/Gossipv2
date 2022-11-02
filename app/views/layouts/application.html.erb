@@ -21,19 +21,26 @@
   <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/user">The Gossip Project</a>
+    <a class="navbar-brand" href="/users">The Gossip Project</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav me-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/user">Accueil
+          <a class="nav-link" href="/users">Accueil
           </a>
         </li>
         
       </ul>
+      <% if logged_in? %>
+          <a href="/gossip" class="btn btn-primary my-2">Découvre tous les gossip !</a>  
+          <%= link_to "Se déconnecter", session_path(session[:user_id]), method: :delete, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>        
+      <% else %>
+          <a href="/sessions/new" class="btn btn-primary my-2">Se connecter</a>
+          <a href="/users/new" class="btn btn-primary my-2">Créer un utilisateur</a>
           <a href="/gossip" class="btn btn-primary my-2">Découvre tous les gossip !</a>
+      <% end %>
 
 
       </form>

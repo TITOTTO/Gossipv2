@@ -4,16 +4,63 @@
 
 <div class="card align-self-center mt-2" style="width: 100rem;">
   <div class="card-body">
-    <h5 class="card-title"><%= link_to "#{@gossip.user.first_name}", "/user/#{@gossip.user.id}" %></h5>
+    <h5 class="card-title"><%= link_to "#{@gossip.user.first_name}", "/users/#{@gossip.user.id}" %></h5>
     <p class="card-text"><%= @gossip.content %></p>
     <p class="card-text">Originaire de <%= @gossip.user.city.name %></p>
-    <%= link_to "#{@gossip.city.name}", "/city/#{@gossip.city.id}" %>
-    <%= link_to "Editer le gossip", "/gossip/#{@gossip.id}/edit" %>
+    <p><%= link_to "#{@gossip.city.name}", "/city/#{@gossip.city.id}" %></p>
+      <% if logged_in? && @gossip.user.id.to_i == current_user.id.to_i %>
+          <p><%= link_to "Editer le gossip", "/gossip/#{@gossip.id}/edit" %></p>
+          <%= link_to "Supprimer le Gossip", gossip_path, method: :delete, class: "btn btn-danger", data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+      <% end %>
+
+      <% if logged_in? && @like %>   <%# T'as déjà liké %>
+      <% like = current_user.likes.find_by(gossip_id: @gossip.id).id%>
+          <form action="/likes/<%=like%>" method="post">
+          <input type="hidden" name="authentificity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" name="like[gossip_id]" value="<%= @gossip.id %>">
+          <%= button_to "Dislike ce bordel", value="Like" %>
+      </form>
+      <% elsif logged_in? && @like == false %> <%# T'as pas liké %>
+      <form action="/likes" method="post">
+          <input type="hidden" name="authentificity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="like[gossip_id]" value="<%= @gossip.id %>">
+          <%= button_to "Like ce bordel", value="Like" %>
+      </form>
+      <% end %>
+    
     
     
 	</div>
 </div>
-<% @comments.each do |comment| %>
-      <p class="card-text"><%= comment.content %></p><br />
-      <%= link_to "Editer le commentaire", edit_comment_path(comment.id) %>
+<% if @comments != nil %>
+  <p class="card-text">Wow, t'as vu ce nombre incroyable de commentaire : <%= @nb %></p>
+  <% @comments.each do |comment| %>
+        <p class="card-text"><%= comment.content %></p><br />
+        <%= link_to "Editer le commentaire", edit_comment_path(comment.id) %>
+        <% if logged_in? && @gossip.user.id.to_i == current_user.id.to_i  %>   <%# On peut supprimer que si on est le proprio de la page%>
+            <%= button_to "Supprimer ce commentaire", comment, method: :delete %>
+        <% end %>
+
+        <%# La c'est partie du like pour les commentaires %>
+      <% if logged_in? && Like.find_by(comment_id: comment.id) != nil %>   <%# T'as déjà liké %>
+          <form action="/likes/<%=comment.id%>" method="post">
+          <input type="hidden" name="authentificity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" name="like[comment_id]" value="<%= comment.id %>">
+          <input type="hidden" name="like[gossips_id]" value="<%= @gossip.id %>">
+          <%= button_to "Dislike ce bordel", value="Like" %>
+      </form>
+      <% elsif logged_in? && @comment == false %> <%# T'as pas liké %>
+      <form action="/likes" method="post">
+          <input type="hidden" name="authentificity_token" value="<%= form_authenticity_token %>">
+          <input type="hidden" name="like[comment_id]" value="<%= comment.id %>">
+          <input type="hidden" name="like[gossips_id]" value="<%= @gossip.id %>">
+          <%= button_to "Like ce bordel", value="Like" %>
+      </form>
+      <% end %>
+
+  <% end %>
 <% end %>
+<br />
+<%= link_to "Mettre un nouveau commentaire", new_comment_path %>

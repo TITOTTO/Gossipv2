@@ -33,6 +33,8 @@ gem 'table_print'
 
 gem 'faker'
 
+gem 'bcrypt'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

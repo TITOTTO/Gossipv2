@@ -1,6 +1,9 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
+  before_action :authenticate_user, only: [:index]
+
   def index
     @user = User.all
+    puts session.loaded?
   end
 
   def show
@@ -8,13 +11,21 @@ class UserController < ApplicationController
   end
 
   def new
-    # Méthode qui crée un potin vide et l'envoie à une view qui affiche le formulaire pour 'le remplir' (new.html.erb)
+    @user = User.new
   end
 
   def create
-    # Méthode qui créé un potin à partir du contenu du formulaire de new.html.erb, soumis par l'utilisateur
-    # pour info, le contenu de ce formulaire sera accessible dans le hash params (ton meilleur pote)
-    # Une fois la création faite, on redirige généralement vers la méthode show (pour afficher le potin créé)
+    user_params = params.require(:user).permit(:mail, :password, :password_confirmation, :city_id, :first_name)
+    @user = User.new(user_params)
+
+    if @user.save
+     flash[:success] = "Tu es bien inscrit."
+     redirect_to "/users/#{current_user}"
+    else
+      flash[:success] = "Une erreur est survenu"
+      puts @user.errors.full_messages
+      render 'new'
+    end
   end
 
   def edit
@@ -31,4 +42,13 @@ class UserController < ApplicationController
     # Méthode qui récupère le potin concerné et le détruit en base
     # Une fois la suppression faite, on redirige généralement vers la méthode index (pour afficher la liste à jour)
   end
+
+  private
+
+    def authenticate_user
+      unless current_user
+        flash[:danger] = "Please log in."
+        redirect_to new_session_path
+      end
+    end
 end

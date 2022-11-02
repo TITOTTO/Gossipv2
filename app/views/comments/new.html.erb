@@ -1,6 +1,10 @@
-<h1>New comment</h1>
+<h1>Nouveau commentaire</h1>
 
-<%= render "form", comment: @comment %>
+<%= form_tag('/comments') do -%>
+    Saisie son contenu : <br><textarea name="content" id="ameliorer"></textarea><br>
+    <%= select_tag "gossip", options_from_collection_for_select(@gossip, "id", "title") %>
+    <div><%= submit_tag 'Save' %></div>
+<% end -%>
 
 <br>
 
